@@ -22,7 +22,7 @@ contract StakingRewards is IStakingRewards, RewardsDistributionRecipient, Reentr
     IERC20 public stakingToken;
     uint256 public periodFinish = 0;
     uint256 public rewardRate = 0;
-    uint256 public rewardsDuration = 7 days;
+    uint256 public rewardsDuration = 30 days;
     uint256 public lastUpdateTime;
     uint256 public rewardPerTokenStored;
 
@@ -135,7 +135,7 @@ contract StakingRewards is IStakingRewards, RewardsDistributionRecipient, Reentr
     // Added to support recovering LP Rewards from other systems to be distributed to holders
     function recoverERC20(address tokenAddress, uint256 tokenAmount) external onlyOwner {
         // If it's TLINK we have to query the token symbol to ensure its not a proxy or underlying
-        bool isCorrectToken = (keccak256(bytes("TLINK")) == keccak256(bytes(ERC20Detailed(tokenAddress).symbol())));
+        bool isCorrectToken = (keccak256(bytes("ART")) == keccak256(bytes(ERC20Detailed(tokenAddress).symbol())));
         // Cannot recover the staking token or the rewards token
         require(
             tokenAddress != address(stakingToken) && tokenAddress != address(rewardsToken) && !isCorrectToken,
